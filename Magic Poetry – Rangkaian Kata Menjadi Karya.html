@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Magic Poetry – Rangkaian Kata Menjadi Karya</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--f1:'Playfair Display',Georgia,serif;--f2:'Great Vibes',cursive;--tx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#12063a;color:var(--tx);font-family:var(--f1)}
+.bgl{position:fixed;inset:0;opacity:0;transition:opacity 1.2s;z-index:-3}.bgl.on{opacity:1}
+#deco{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+#pc{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
+.sea::before,.sea::after{content:"";position:absolute;left:0;right:0;bottom:0;height:140px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0 60Q150 0 300 60T600 60T900 60T1200 60V120H0Z' fill='%23fff' fill-opacity='.16'/%3E%3C/svg%3E") repeat-x;background-size:1200px 140px;animation:wv 14s linear infinite}
+.sea::after{height:100px;bottom:-10px;animation-duration:9s;animation-direction:reverse}
+@keyframes wv{to{background-position-x:1200px}}
+.batik{background:radial-gradient(circle,transparent 36%,rgba(255,215,140,.25) 38%,transparent 43%),radial-gradient(circle at 0 0,rgba(255,215,140,.22) 14%,transparent 16%),radial-gradient(circle at 100% 100%,rgba(255,215,140,.22) 14%,transparent 16%);background-size:64px 64px;opacity:.5}
+.love::after{content:"";position:absolute;left:50%;bottom:-10%;width:60vmax;height:60vmax;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,190,110,.35),transparent 60%);animation:fl 3s ease-in-out infinite}
+@keyframes fl{50%{opacity:.6;transform:translateX(-50%) scale(1.06)}}
+#mus{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:10px;z-index:20;display:flex;gap:8px;align-items:center;padding:6px 12px;border-radius:30px;background:rgba(0,0,0,.35);backdrop-filter:blur(8px);font-size:.75rem}
+#mus button{background:none;border:0;color:#fff;font-size:1.2rem;cursor:pointer}#mus input{width:70px;accent-color:#ffd88a}
+#mn{max-width:110px;opacity:.85}
+.scr{display:none;min-height:100vh;padding:64px 16px 40px;flex-direction:column;align-items:center;text-align:center}
+.scr.on{display:flex;animation:in .9s ease both}@keyframes in{from{opacity:0;transform:translateY(24px) scale(.98)}}
+#s0{justify-content:center}
+h1{font-family:var(--f2);font-weight:400;font-size:clamp(3rem,13vw,8rem);margin:.1em 0;line-height:1}
+h1 span{display:inline-block;animation:sh 3.5s ease-in-out infinite;text-shadow:0 0 18px #ffd88a,0 0 40px #ff9acb}
+@keyframes sh{50%{text-shadow:0 0 30px #fff,0 0 70px #ffd88a;transform:translateY(-6px)}}
+.sub{letter-spacing:.35em;font-size:clamp(.7rem,2.5vw,1rem);text-transform:uppercase;opacity:.85}
+.q{font-style:italic;font-size:clamp(1.1rem,3.5vw,1.6rem);margin:28px 0 36px;opacity:.95}
+.btn{font-family:var(--f1);color:#fff;border:1px solid rgba(255,255,255,.55);background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.06));backdrop-filter:blur(8px);border-radius:40px;padding:12px 24px;font-size:1rem;cursor:pointer;transition:.3s;letter-spacing:.06em}
+.btn:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 0 28px rgba(255,216,138,.6)}
+.big{font-size:1.2rem;padding:16px 38px;animation:pl 2.4s infinite}@keyframes pl{50%{box-shadow:0 0 36px rgba(255,216,138,.8)}}
+h2{font-family:var(--f2);font-weight:400;font-size:clamp(2.2rem,8vw,4rem);margin:.2em 0}
+#tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;width:min(1000px,100%);margin:20px 0}
+.tc{border:1px solid rgba(255,255,255,.4);border-radius:22px;padding:26px 14px;cursor:pointer;font-size:1.15rem;transition:.35s;color:#fff;font-family:var(--f1);animation:in .8s both}
+.tc b{display:block;font-size:2.6rem;margin-bottom:8px}.tc:hover{transform:translateY(-6px) scale(1.04);box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;width:min(900px,100%);margin:6px 0}
+.gl{background:rgba(0,0,0,.28);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);border-radius:20px}
+#poem{width:min(900px,100%);min-height:170px;padding:22px;margin:10px 0;font-size:clamp(1.3rem,4.5vw,2rem);font-style:italic;line-height:1.7}
+#poem:empty::before,.ph{content:"Pilih atau seret kata ke sini…";opacity:.5}
+.ln{min-height:1.7em}.w{display:inline-block;margin:0 .22em;cursor:pointer;text-shadow:0 0 12px rgba(255,255,255,.7)}.w.p{margin-left:-.18em}
+.w.new{animation:gw 1.4s ease-out}@keyframes gw{0%{opacity:0;transform:scale(1.8);text-shadow:0 0 40px #ffd88a,0 0 80px #fff;color:#ffd88a}100%{opacity:1}}
+.w:hover{text-decoration:line-through}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0}.tab{padding:7px 16px;font-size:.9rem}.tab.on{background:rgba(255,216,138,.35);border-color:#ffd88a}
+#cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:min(900px,100%);padding:12px}
+.cd{font-family:var(--f1);font-size:1.05rem;color:#fff;padding:10px 18px;border-radius:14px;cursor:grab;background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.45);transition:.25s;animation:in .5s both}
+.cd:hover{transform:translateY(-4px) rotate(-1.5deg);box-shadow:0 0 22px rgba(255,216,138,.7);text-shadow:0 0 10px #fff}
+.cd.ins{border-color:#ffd88a;animation:pl 2s infinite}
+input.tx{font-family:var(--f1);padding:10px 16px;border-radius:30px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.15);color:#fff;font-size:1rem;width:min(240px,100%)}
+input.tx::placeholder{color:rgba(255,255,255,.65)}
+#rc{width:min(760px,100%);padding:30px 22px;margin:14px 0;position:relative}
+#rt{width:100%;background:none;border:0;border-bottom:1px dashed rgba(255,255,255,.4);text-align:center;color:#fff;font-family:var(--f2);font-size:clamp(2.4rem,9vw,4.6rem);text-shadow:0 0 22px #ffd88a;outline:0}
+#rp{font-style:italic;font-size:clamp(1.15rem,3.8vw,1.9rem);line-height:1.8;margin-top:22px;outline:0;white-space:pre-wrap;text-shadow:0 0 14px rgba(255,255,255,.55)}
+#rp div{animation:in 1s both}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:30}#modal.on{display:flex}
+#ml{width:min(520px,92%);max-height:80vh;overflow:auto;padding:20px}.mi{padding:10px;border-bottom:1px solid rgba(255,255,255,.2);cursor:pointer;text-align:left}.mi:hover{background:rgba(255,255,255,.12)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:rgba(0,0,0,.75);padding:10px 22px;border-radius:30px;opacity:0;transition:.4s;z-index:40;pointer-events:none}#toast.on{opacity:1;transform:translate(-50%,0)}
+</style></head><body>
+<div id="deco"></div><canvas id="pc"></canvas>
+<div id="mus" class="gl"><button id="mb" title="Putar / hentikan musik">▶</button><input id="vol" type="range" min="0" max="1" step=".02" value=".5" title="Volume"><span id="mn">Musik mati</span></div>
+
+<section id="s0" class="scr on">
+<div class="sub">✨ Dunia puisi digital ✨</div>
+<h1 id="ti"></h1><div class="sub">Rangkaian Kata Menjadi Karya</div>
+<p class="q">“Setiap kata punya cerita, setiap hati punya puisi.”</p>
+<button class="btn big" id="go">✨ MULAI BERKARYA ✨</button>
+</section>
+
+<section id="s1" class="scr"><h2>Pilih Tema Puisimu</h2><div class="q" style="margin:0">Setiap tema punya dunia dan alunan musiknya sendiri</div>
+<div id="tg"></div><button class="btn" id="mp">📚 Puisiku</button></section>
+
+<section id="s2" class="scr">
+<div class="bar"><button class="btn" id="b1">← Tema</button><b id="tn" style="font-size:1.3rem"></b><button class="btn" id="insp">💡 BERIKAN INSPIRASI</button></div>
+<div id="ib" class="bar"></div>
+<div id="poem" class="gl"></div>
+<div class="bar"><button class="btn" id="nl">↵ Baris baru</button><button class="btn" id="un">⌫ Hapus kata</button><button class="btn" id="cl">Kosongkan</button><button class="btn" id="fin" style="border-color:#ffd88a">Selesai ✓</button></div>
+<div class="tabs" id="tabs"></div>
+<div id="cards" class="gl"></div>
+<div class="bar"><input class="tx" id="cw" placeholder="Tulis kata sendiri…" maxlength="24"><button class="btn" id="aw">+ Tambah kata</button></div>
+</section>
+
+<section id="s3" class="scr"><h2>Karyamu Telah Lahir</h2>
+<div id="rc" class="gl"><input id="rt" maxlength="40" placeholder="Judul puisi"><div id="rp" contenteditable="true" spellcheck="false"></div></div>
+<div class="q" style="margin:0 0 10px;font-size:.95rem">Klik judul atau puisi untuk menyunting.</div>
+<div class="bar"><button class="btn" id="r0">← Susun ulang</button><button class="btn" id="rs">💾 SIMPAN PUISI</button><button class="btn" id="rg">🖼️ Unduh gambar</button><button class="btn" id="rf">📄 Unduh PDF</button><button class="btn" id="rn" style="border-color:#ffd88a">✨ BUAT PUISI BARU</button></div>
+</section>
+
+<div id="modal"><div id="ml" class="gl"></div></div><div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),rnd=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const D={e:'✨',c:['#12063a','#3b1a6e','#c0577e'],g:'#ffb86b',p:['✨','⭐','🌙','💫'],dir:'up',st:'dream',d:''};
+const T=[
+{e:'❤️',n:'Cinta dan Kerinduan',c:['#2b1040','#8a2a64','#e0566b'],g:'#ff9a6b',p:['🌹','✨','🕯️','💗'],dir:'up',st:'love',d:'love',w:{Benda:'senja mawar lilin hati surat bayangan',Sifat:'lembut sunyi hangat manis pilu abadi',Kerja:'merindu mencintai menunggu memeluk berbisik menanti',Puitis:'rindu cinta pelukan kenangan asmara sendu'}},
+{e:'🌊',n:'Keindahan Alam dan Laut',c:['#ff9d6b','#2b7aa8','#041b3a'],g:'#ffd08a',p:['🐠','🫧','🐚','🐟'],dir:'side',st:'sea',d:'sea',w:{Benda:'samudra ombak karang pantai ikan layar',Sifat:'biru dalam tenang luas asin berkilau',Kerja:'berlayar berdebur menyelam menari berlabuh menyapa',Puitis:'buih cakrawala senjakala pasang dermaga camar'}},
+{e:'🌸',n:'Kehidupan dan Harapan',c:['#fff1a8','#6bc98a','#0f5a46'],g:'#fff6b0',p:['🦋','🌸','🍃','☀️'],dir:'up',st:'nature',d:'',w:{Benda:'fajar bunga benih embun kupu-kupu hutan',Sifat:'hijau segar mekar ceria teguh tulus',Kerja:'tumbuh bangkit bernafas berharap melangkah tersenyum',Puitis:'harapan kehidupan syukur semi cahaya perjalanan'}},
+{e:'🌙',n:'Mimpi dan Imajinasi',c:['#07041f','#2a1670','#7a3fa8'],g:'#9a8cff',p:['⭐','🌙','✨','🪐'],dir:'down',st:'dream',d:'',w:{Benda:'bintang bulan galaksi malam awan angan',Sifat:'gemerlap ajaib sunyi jauh fana perak',Kerja:'terbang melayang bermimpi menari menembus terjaga',Puitis:'imajinasi keabadian semesta khayal nebula bisikan'}},
+{e:'🌺',n:'Persahabatan',c:['#ffc27a','#f06d8f','#7a3a9e'],g:'#ffe29a',p:['🌺','🤝','🦋','💛'],dir:'up',st:'nature',d:'',w:{Benda:'tangan tawa jalan bangku senyum cerita',Sifat:'setia hangat riang jujur erat tulus',Kerja:'berbagi menemani tertawa merangkul percaya bergandeng',Puitis:'persahabatan kebersamaan kenangan pelita sahabat janji'}},
+{e:'🇮🇩',n:'Cinta Tanah Air',c:['#b3122b','#7a1230','#2a0b25'],g:'#ffffff',p:['🇮🇩','🦅','⭐','🌴'],dir:'up',st:'culture',d:'',w:{Benda:'nusantara pertiwi garuda merah-putih sawah gunung',Sifat:'perkasa subur gagah jaya molek lestari',Kerja:'berjuang mengabdi menjaga bersatu berkibar membangun',Puitis:'merdeka bangsa zamrud kebanggaan tanah_air khatulistiwa'}},
+{e:'✨',n:'Keindahan Budaya Indonesia',c:['#5a2d0c','#a8631f','#2b1408'],g:'#ffd27a',p:['🎭','🌺','🔱','✨'],dir:'side',st:'culture',d:'batik',w:{Benda:'batik gamelan wayang tari candi kain',Sifat:'anggun luhur adiluhung sakral warna-warni khidmat',Kerja:'menari menenun mendalang menabuh melestarikan mewarisi',Puitis:'tradisi leluhur nusantara pusaka kearifan irama'}}];
+const CON='yang di dan seperti adalah dalam tak ku mu dengan untuk pada hanya selalu ketika bagai tanpa , . ! …'.split(' ');
+const EXT='bersama selamanya pulang rahasia keajaiban sempurna kelak diam semoga bisu cahaya angin jiwa'.split(' ');
+let th=D,lines=[[]],tab='Benda',extra=[],cur=-1;
+
+/* ---------- latar & partikel ---------- */
+function setBg(t){const n=document.createElement('div');n.className='bgl';n.style.background=`radial-gradient(circle at 50% 88%,${t.g}66,transparent 55%),linear-gradient(${t.c.join(',')})`;document.body.prepend(n);requestAnimationFrame(()=>requestAnimationFrame(()=>n.classList.add('on')));setTimeout(()=>{document.querySelectorAll('.bgl').forEach(e=>{if(e!==n)e.remove()})},1400);$('#deco').className=t.d||'';$('#deco').innerHTML=t.d==='sea'||t.d==='love'||t.d==='batik'?'':'';setP(t)}
+const cv=$('#pc'),cx=cv.getContext('2d');let P=[],B=[],dir='up';
+function setP(t){dir=t.dir;P=Array.from({length:34},(_,i)=>({x:Math.random(),y:Math.random(),e:t.p[i%4],s:16+Math.random()*24,v:.0003+Math.random()*.0007,ph:Math.random()*6,a:.35+Math.random()*.5}))}
+function burst(x,y){for(let i=0;i<22;i++){const a=Math.random()*6.28,s=1+Math.random()*3;B.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:1})}}
+function loop(t){cv.width=innerWidth;cv.height=innerHeight;const W=cv.width,H=cv.height;
+for(const p of P){if(dir==='up'){p.y-=p.v;if(p.y<-.06)p.y=1.06}else if(dir==='down'){p.y+=p.v;if(p.y>1.06)p.y=-.06}else{p.x+=p.v*1.6;if(p.x>1.06)p.x=-.06}
+cx.globalAlpha=p.a;cx.font=p.s+'px serif';cx.fillText(p.e,p.x*W+Math.sin(p.ph+t/1500)*18,p.y*H+(dir==='side'?Math.sin(p.ph+t/900)*24:0))}
+for(const b of B){b.x+=b.vx;b.y+=b.vy;b.vy+=.06;b.l-=.018;cx.globalAlpha=Math.max(b.l,0);cx.fillStyle='#ffe9a8';cx.shadowColor='#ffd88a';cx.shadowBlur=12;cx.beginPath();cx.arc(b.x,b.y,2.5,0,6.3);cx.fill()}
+cx.shadowBlur=0;B=B.filter(b=>b.l>0);requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+
+/* ---------- musik (disintesis dengan Web Audio) ---------- */
+let ac,mg,tm,ex=[],playing=false,st='dream',c=0;const MN={dream:'Piano fantasi',love:'Piano & biola',sea:'Ombak & ambient',nature:'Burung & akustik',culture:'Gamelan lembut'};
+function init(){if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();mg=ac.createGain();mg.gain.value=+$('#vol').value;const d=ac.createDelay(),f=ac.createGain(),w=ac.createGain();d.delayTime.value=.38;f.gain.value=.38;w.gain.value=.45;d.connect(f);f.connect(d);d.connect(w);w.connect(ac.destination);mg.connect(d);mg.connect(ac.destination)}ac.resume()}
+function tone(f,d,ty,v,a=.02){const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(mg);o.start(t);o.stop(t+d+.1)}
+function chirp(){const t=ac.currentTime;for(let i=0;i<3;i++){const o=ac.createOscillator(),g=ac.createGain(),s=t+i*.16;o.frequency.setValueAtTime(2600,s);o.frequency.linearRampToValueAtTime(3600,s+.07);o.frequency.linearRampToValueAtTime(2800,s+.13);g.gain.setValueAtTime(.05,s);g.gain.exponentialRampToValueAtTime(.0001,s+.14);o.connect(g);g.connect(mg);o.start(s);o.stop(s+.15)}}
+function waves(){const b=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=ac.createBufferSource(),fl=ac.createBiquadFilter(),g=ac.createGain(),l=ac.createOscillator(),lg=ac.createGain();s.buffer=b;s.loop=true;fl.type='lowpass';fl.frequency.value=420;g.gain.value=.09;l.frequency.value=.11;lg.gain.value=.07;l.connect(lg);lg.connect(g.gain);s.connect(fl);fl.connect(g);g.connect(mg);s.start();l.start();ex.push(s,l)}
+const ST={
+dream:{b:1000,s(n){const sc=[261.6,293.7,329.6,370,392,440,493.9,523.3,659.3];tone(rnd(sc),4,'sine',.13,.03);if(n%4==0)tone(130.8,7,'triangle',.08,1)}},
+love:{b:750,s(n){const sc=[220,261.6,329.6,440,523.3,659.3];tone(sc[[0,2,3,5,3,2][n%6]],2.4,'triangle',.17);if(n%12==0)[329.6,392].forEach(f=>{tone(f,8,'sine',.05,2);tone(f*1.005,8,'sine',.05,2)})}},
+sea:{b:1500,pre:waves,s(n){tone(rnd([196,220,261.6,293.7,392]),3.5,'sine',.07,.3)}},
+nature:{b:430,s(n){tone(rnd([261.6,293.7,329.6,392,440,523.3]),1.3,'triangle',.13);if(Math.random()<.16)chirp()}},
+culture:{b:650,s(n){const f=rnd([293.7,329.6,392,440,523.3,587.3]);tone(f,2.4,'sine',.14);tone(f*2.01,1.2,'sine',.04);if(n%8==0)tone(146.8,6,'sine',.16)}}};
+function ui(){$('#mb').textContent=playing?'⏸':'▶';$('#mn').textContent=playing?MN[st]:'Musik mati'}
+function stopM(){clearInterval(tm);ex.forEach(x=>{try{x.stop()}catch(e){}});ex=[];playing=false;ui()}
+function playM(){init();clearInterval(tm);ex.forEach(x=>{try{x.stop()}catch(e){}});ex=[];playing=true;c=0;const m=ST[st];m.pre&&m.pre();m.s(0);tm=setInterval(()=>m.s(++c),m.b);ui()}
+function setM(s){st=s;if(playing)playM();else ui()}
+$('#mb').onclick=()=>playing?stopM():playM();
+$('#vol').oninput=e=>{if(mg)mg.gain.value=+e.target.value};
+
+/* ---------- navigasi ---------- */
+const show=id=>{document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===id));scrollTo(0,0)};
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)};
+$('#ti').innerHTML=[...'MAGIC POETRY'].map((ch,i)=>`<span style="animation-delay:${i*.18}s">${ch===' '?'&nbsp;':ch}</span>`).join('');
+$('#tg').innerHTML=T.map((t,i)=>`<button class="tc" style="background:linear-gradient(160deg,${t.c.join(',')});animation-delay:${i*.08}s" data-i="${i}"><b>${t.e}</b>${t.n}</button>`).join('');
+$('#go').onclick=()=>{setM('dream');playM();show('s1')};
+$('#tg').onclick=e=>{const b=e.target.closest('.tc');if(b)pick(+b.dataset.i)};
+function pick(i){th=T[i];cur=i;lines=[[]];tab='Benda';$('#ib').innerHTML='';setBg(th);setM(th.st);$('#tn').textContent=th.e+' '+th.n;tabs();cards();poem();show('s2')}
+$('#b1').onclick=()=>{setBg(D);show('s1')};
+
+/* ---------- permainan ---------- */
+const TB=['Benda','Sifat','Kerja','Puitis','Sambung','Bebas'];
+function tabs(){$('#tabs').innerHTML=TB.map(t=>`<button class="btn tab ${t===tab?'on':''}" data-t="${t}">${t}</button>`).join('')}
+$('#tabs').onclick=e=>{const b=e.target.closest('.tab');if(b){tab=b.dataset.t;tabs();cards()}};
+function words(){return tab==='Sambung'?CON:tab==='Bebas'?EXT.concat(extra):th.w[tab].split(' ')}
+function cards(){$('#cards').innerHTML=words().map((w,i)=>`<button class="cd" draggable="true" style="animation-delay:${i*.03}s" data-w="${w}">${w.replace(/_/g,' ')}</button>`).join('')}
+$('#cards').onclick=e=>{const b=e.target.closest('.cd');if(b)add(b.dataset.w,b)};
+$('#cards').ondragstart=e=>{const b=e.target.closest('.cd');if(b)e.dataTransfer.setData('text/plain',b.dataset.w)};
+$('#poem').ondragover=e=>e.preventDefault();
+$('#poem').ondrop=e=>{e.preventDefault();const w=e.dataTransfer.getData('text/plain');if(w){add(w,null);burst(e.clientX,e.clientY)}};
+function add(w,el){lines[lines.length-1].push(w.replace(/_/g,' '));poem(true);if(el){const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2)}}
+function poem(an){const p=$('#poem');if(!lines.some(l=>l.length)&&lines.length<2){p.innerHTML='<div class="ph">Pilih atau seret kata ke sini…</div>';return}
+p.innerHTML=lines.map((l,li)=>`<div class="ln">${l.map((w,wi)=>`<span class="w${/^[,.!…]$/.test(w)?' p':''}${an&&li===lines.length-1&&wi===l.length-1?' new':''}" data-l="${li}" data-i="${wi}">${esc(w)}</span>`).join('')}</div>`).join('')}
+$('#poem').onclick=e=>{const s=e.target.closest('.w');if(s){lines[+s.dataset.l].splice(+s.dataset.i,1);poem()}};
+$('#nl').onclick=()=>{if(lines[lines.length-1].length){lines.push([]);poem()}};
+$('#un').onclick=()=>{let l=lines[lines.length-1];if(!l.length&&lines.length>1){lines.pop();l=lines[lines.length-1]}l.pop();poem()};
+$('#cl').onclick=()=>{lines=[[]];poem()};
+function addCustom(){const v=$('#cw').value.trim();if(!v)return;extra.push(v);$('#cw').value='';tab='Bebas';tabs();cards();add(v,null)}
+$('#aw').onclick=addCustom;$('#cw').onkeydown=e=>{if(e.key==='Enter')addCustom()};
+$('#insp').onclick=()=>{const all=Object.values(th.w).join(' ').split(' ').concat(EXT);const pk=[...new Set(Array.from({length:8},()=>rnd(all)))];$('#ib').innerHTML='<span>💡 Inspirasi:</span>'+pk.map(w=>`<button class="cd ins" data-w="${w}">${w.replace(/_/g,' ')}</button>`).join('');toast('Sentuh kata inspirasi untuk memakainya ✨')};
+$('#ib').onclick=e=>{const b=e.target.closest('.cd');if(b)add(b.dataset.w,b)};
+$('#fin').onclick=()=>{const L=lines.map(l=>l.join(' ').replace(/ ([,.!…])/g,'$1')).filter(Boolean);if(!L.length)return toast('Susun beberapa kata dulu ya ✨');const f=L[0].split(' ')[0];result('Puisi '+f.charAt(0).toUpperCase()+f.slice(1),L)};
+function result(t,L){$('#rt').value=t;$('#rp').innerHTML=L.map((l,i)=>`<div style="animation-delay:${.3+i*.45}s">${esc(l)}</div>`).join('');burst(innerWidth/2,innerHeight/3);show('s3')}
+$('#r0').onclick=()=>show('s2');
+$('#rn').onclick=()=>{setBg(D);setM('dream');show('s1')};
+
+/* ---------- simpan & unduh ---------- */
+const poemLines=()=>$('#rp').innerText.split('\n').map(s=>s.trim()).filter(Boolean);
+const store=()=>{try{return JSON.parse(localStorage.getItem('mp')||'[]')}catch(e){return[]}};
+$('#rs').onclick=()=>{const a=store();a.unshift({t:$('#rt').value||'Tanpa judul',l:poemLines(),i:cur});try{localStorage.setItem('mp',JSON.stringify(a.slice(0,30)));toast('Puisi tersimpan 💾 ('+Math.min(a.length,30)+')')}catch(e){toast('Penyimpanan tidak tersedia')}};
+$('#mp').onclick=()=>{const a=store();$('#ml').innerHTML='<h2 style="font-size:2.4rem;margin:0">Puisiku</h2>'+(a.length?a.map((p,i)=>`<div class="mi" data-i="${i}">${T[p.i]?T[p.i].e:'✨'} <b>${esc(p.t)}</b><br><small>${esc(p.l[0]||'')}…</small></div>`).join(''):'<p>Belum ada puisi tersimpan.</p>')+'<button class="btn" style="margin-top:12px" id="mx">Tutup</button>';$('#modal').classList.add('on')};
+$('#ml').onclick=e=>{if(e.target.id==='mx')return $('#modal').classList.remove('on');const m=e.target.closest('.mi');if(m){const p=store()[+m.dataset.i];cur=p.i;th=T[cur]||D;setBg(th);setM(th.st);$('#modal').classList.remove('on');result(p.t,p.l)}};
+$('#modal').onclick=e=>{if(e.target.id==='modal')e.target.classList.remove('on')};
+function wrap(x,t,mw){const r=[];let l='';for(const w of t.split(' ')){const n=l?l+' '+w:w;if(x.measureText(n).width>mw&&l){r.push(l);l=w}else l=n}if(l)r.push(l);return r}
+async function art(){try{await document.fonts.load('100px "Great Vibes"');await document.fonts.load('italic 40px "Playfair Display"')}catch(e){}
+const W=1080,H=1350,k=document.createElement('canvas');k.width=W;k.height=H;const x=k.getContext('2d'),g=x.createLinearGradient(0,0,0,H);th.c.forEach((c,i)=>g.addColorStop(i/2,c));x.fillStyle=g;x.fillRect(0,0,W,H);
+const r=x.createRadialGradient(W/2,H*.88,10,W/2,H*.88,H*.6);r.addColorStop(0,th.g+'99');r.addColorStop(1,th.g+'00');x.fillStyle=r;x.fillRect(0,0,W,H);
+let s=11;const R=()=>(s=s*16807%2147483647)/2147483647;x.fillStyle='#fff';for(let i=0;i<100;i++){x.globalAlpha=.15+R()*.7;x.beginPath();x.arc(R()*W,R()*H,.6+R()*2.2,0,6.3);x.fill()}
+x.globalAlpha=1;x.strokeStyle='rgba(255,255,255,.4)';x.lineWidth=3;x.strokeRect(46,46,W-92,H-92);x.strokeRect(62,62,W-124,H-124);
+x.textAlign='center';x.fillStyle='#fff';x.shadowColor=th.g;x.shadowBlur=28;
+x.font='64px serif';x.fillText(th.e,W/2,175);
+let fs=120;const ti=$('#rt').value||'Tanpa judul';do{x.font=fs+'px "Great Vibes",cursive';fs-=4}while(x.measureText(ti).width>880&&fs>40);x.fillText(ti,W/2,310);
+const L=poemLines();let f=54,rows;for(;f>=26;f-=2){x.font='italic '+f+'px "Playfair Display",Georgia,serif';rows=L.flatMap(l=>wrap(x,l,820));if(rows.length*f*1.55<=780)break}
+let y=420+(780-rows.length*f*1.55)/2+f;x.shadowBlur=18;rows.forEach(t=>{x.fillText(t,W/2,y);y+=f*1.55});
+x.shadowBlur=0;x.fillStyle='rgba(255,255,255,.75)';x.font='italic 28px "Playfair Display",serif';x.fillText('✨ Magic Poetry ✨',W/2,H-100);return k}
+async function sv(name,blob){try{const d=window.claude&&await claude.use('downloads');if(!d)return toast('Unduhan tidak tersedia di tampilan ini');await d.save({filename:name,data:blob})}catch(e){if(!e||e.code!=='declined')toast('Gagal mengunduh')}}
+const fn=()=>($('#rt').value||'puisi').replace(/[^\w\- ]/g,'').trim().replace(/ +/g,'-')||'puisi';
+$('#rg').onclick=async()=>{const k=await art();k.toBlob(b=>sv(fn()+'.png',b),'image/png')};
+$('#rf').onclick=async()=>{const k=await art();try{const p=new window.jspdf.jsPDF({unit:'px',format:[1080,1350],orientation:'portrait'});p.addImage(k.toDataURL('image/jpeg',.93),'JPEG',0,0,1080,1350);sv(fn()+'.pdf',p.output('blob'))}catch(e){toast('PDF belum siap, coba lagi')}};
+setBg(D);ui();
+</script></body></html>
